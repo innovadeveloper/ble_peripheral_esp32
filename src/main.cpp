@@ -4,28 +4,34 @@
 #include "./libraries/ble_client.h"
 
 extern void setupButtons(
-    // const std::vector<Button> &buttonList,
-    const std::function<void(const Button &)> &closure);
+    const std::vector<Button> &buttonList,
+    const std::function<void(const Button &, const bool isLongClick)> &closure);
+extern void processButtonPressed(
+    const Button &pressedButton,
+    const bool isLongClick);
 
-void setup() {
+void setup()
+{
   Serial.begin(9600);
-  // pinMode(buttonPin, INPUT_PULLDOWN);
+  pinMode(PUSH_ONE_PIN, INPUT_PULLDOWN);
+  pinMode(PUSH_SECOND_PIN, INPUT_PULLDOWN);
+  // pinMode(PUSH_THIRD_PIN, INPUT_PULLDOWN);
   // pinMode(ledPin, OUTPUT);
+  setupBLE();
 }
 
+// char buffer[100];
+// Lee el estado del botón
+std::vector<Button> buttons = {
+    Button(SC_001_COMMAND, RESTART_COMMAND, PUSH_ONE_PIN),
+    Button(SC_002_COMMAND, LC_002_COMMAND, PUSH_SECOND_PIN),
+    Button(SC_003_COMMAND, LC_003_COMMAND, PUSH_THIRD_PIN)};
 
-
-void loop() {
-  // Lee el estado del botón
-  int buttonState = digitalRead(1);
-  Serial.println(buttonState);
-  setupBLE();
-  // if (buttonState == HIGH) {
-  //   Serial.println("Click in button");
-  //   digitalWrite(ledPin, HIGH);  // Enciende el LED
-  //   delay(2000);
-  // } else {
-  //   digitalWrite(ledPin, LOW);   // Apaga el LED
-  // }
-  delay(100);
+void loop()
+{
+  setupButtons(buttons, [](const Button &button, const bool isLongClick)
+               {
+    processButtonPressed(button, isLongClick);
+      delay(100); 
+    });
 }
