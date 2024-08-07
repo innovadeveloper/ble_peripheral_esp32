@@ -15,8 +15,7 @@ void setup()
   Serial.begin(9600);
   pinMode(PUSH_ONE_PIN, INPUT_PULLDOWN);
   pinMode(PUSH_SECOND_PIN, INPUT_PULLDOWN);
-  // pinMode(PUSH_THIRD_PIN, INPUT_PULLDOWN);
-  // pinMode(ledPin, OUTPUT);
+  // pinMode(2, OUTPUT);
   setupBLE();
 }
 
@@ -24,8 +23,9 @@ void setup()
 // Lee el estado del botón
 std::vector<Button> buttons = {
     Button(SC_001_COMMAND, RESTART_COMMAND, PUSH_ONE_PIN),
-    Button(SC_002_COMMAND, LC_002_COMMAND, PUSH_SECOND_PIN),
-    Button(SC_003_COMMAND, LC_003_COMMAND, PUSH_THIRD_PIN)};
+    Button(SC_002_COMMAND, LC_002_COMMAND, PUSH_SECOND_PIN)
+    // Button(SC_003_COMMAND, LC_003_COMMAND, PUSH_THIRD_PIN)
+    };
 
 void loop()
 {
